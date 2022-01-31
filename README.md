@@ -19,3 +19,6 @@ The following tools/packages/frameworks have to be installed on your system
 2. visit ```http://localhost:8080``` to access the ui of airlfow
 3. add Airflow Connections for AWS
 4. run the ```udac_example_dag``` in the airflow dag overview
+
+### 2.3 Delete aws infrastructure
+1. run ```python3 iac/delets_aws_infrastructure.py``` to delete the aws infrastructure (iam role, redshift cluster).
