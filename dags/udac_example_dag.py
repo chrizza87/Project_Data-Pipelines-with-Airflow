@@ -12,10 +12,10 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 default_args = {
     'owner': 'udacity',
-    'start_date': datetime(2021, 12, 7),
+    'start_date': datetime(2022, 1, 20),
 }
 
-dag = DAG('udac_example_dag1',
+dag = DAG('udac_example_dag',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
           schedule_interval='0 0 * * *'
@@ -99,7 +99,9 @@ load_time_dimension_table = LoadDimensionOperator(
 
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
-    dag=dag
+    dag=dag,
+    table_names=('artists', 'songplays', 'songs', 'time', 'users'),
+    primary_keys=('artist_id', 'playid', 'song_id', 'start_time', 'userid')
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
