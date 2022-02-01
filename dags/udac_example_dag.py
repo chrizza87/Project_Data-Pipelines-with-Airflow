@@ -106,8 +106,19 @@ load_time_dimension_table = LoadDimensionOperator(
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
     dag=dag,
-    table_names=('artists', 'songplays', 'songs', 'time', 'users'),
-    primary_keys=('artist_id', 'playid', 'song_id', 'start_time', 'userid')
+    dq_checks=[
+        {'check_sql': 'SELECT COUNT(*) FROM artists', 'expected_result': 0, 'compare': '>'},
+        {'check_sql': 'SELECT COUNT(*) FROM songplays', 'expected_result': 0, 'compare': '>'},
+        {'check_sql': 'SELECT COUNT(*) FROM songs', 'expected_result': 0, 'compare': '>'},
+        {'check_sql': 'SELECT COUNT(*) FROM time', 'expected_result': 0, 'compare': '>'},
+        {'check_sql': 'SELECT COUNT(*) FROM users', 'expected_result': 0, 'compare': '>'},
+        {'check_sql': 'SELECT COUNT(*) FROM artists WHERE artist_id is null', 'expected_result': 0, 'compare': '='},
+        {'check_sql': 'SELECT COUNT(*) FROM songplays WHERE playid is null', 'expected_result': 0, 'compare': '='},
+        {'check_sql': 'SELECT COUNT(*) FROM songs WHERE songid is null', 'expected_result': 0, 'compare': '='},
+        {'check_sql': 'SELECT COUNT(*) FROM time WHERE start_time is null', 'expected_result': 0, 'compare': '='},
+        {'check_sql': 'SELECT COUNT(*) FROM users WHERE userid is null', 'expected_result': 0, 'compare': '='},
+        
+    ]
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
