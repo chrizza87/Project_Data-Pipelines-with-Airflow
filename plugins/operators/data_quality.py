@@ -5,8 +5,6 @@ from airflow.utils.decorators import apply_defaults
 class DataQualityOperator(BaseOperator):
 
     ui_color = '#89DA59'
-    count_sql = 'SELECT COUNT(*) FROM {}'
-    count_null_values_sql = 'SELECT COUNT(*) FROM {} WHERE {} IS NULL'
 
     @apply_defaults
     def __init__(self,
