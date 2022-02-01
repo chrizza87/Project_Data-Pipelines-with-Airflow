@@ -11,8 +11,6 @@ class DataQualityOperator(BaseOperator):
     @apply_defaults
     def __init__(self,
                  redshift_conn_id,
-                 tables_names,
-                 primary_keys,
                  dq_checks,
                  *args, **kwargs):
         """
